@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UA Checklist App</title>
+    <style>
+        :root {
+            --ua-blue: #0C234B;
+            --ua-red: #AB0520;
+            --ua-red-bright: #CC0033;
+            
+            /* App Theme Mapping */
+            --bg-color: #F4F6F8;
+            --card-bg: #ffffff;
+            --text-color: var(--ua-blue); 
+            --accent-color: var(--ua-red);
+            --border-color: #E2E9EB;
+            --checked-text: #637282;
+            --timestamp-color: #8B95A5;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .container {
+            background: var(--card-bg);
+            width: 100%;
+            max-width: 700px; /* Widened slightly to accommodate dates */
+            padding: 2.5rem;
+            border-radius: 4px;
+            box-shadow: 0 4px 12px rgba(12, 35, 75, 0.15);
+            border-top: 6px solid var(--ua-blue);
+        }
+
+        /* Header Layout */
+        .header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--ua-red-bright);
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 1.75rem;
+            color: var(--ua-blue);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Clear Button */
+        .btn-clear {
+            background: transparent;
+            border: 1px solid var(--ua-red);
+            color: var(--ua-red);
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.2s;
+        }
+
+        .btn-clear:hover {
+            background: var(--ua-red);
+            color: white;
+        }
+
+        .loading {
+            color: var(--checked-text);
+            font-style: italic;
+        }
+
+        /* --- LIST STYLING --- */
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        /* Nested List Styling */
+        ul ul {
+            margin-left: 24px;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            padding-left: 12px;
+            border-left: 2px solid var(--border-color);
+        }
+
+        .task-item {
+            display: block;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .task-item:has(> ul) {
+            border-bottom: none; 
+        }
+        
+        /* Flex container for the content row */
+        .task-content {
+            display: flex;
+            align-items: flex-start; /* Align top if text wraps */
+            width: 100%;
+        }
+
+        /* Custom Checkbox Logic */
+        .task-checkbox {
+            appearance: none;
+            background-color: #fff;
+            margin: 3px 15px 0 0; /* Adjusted margin */
+            font: inherit;
+            color: currentColor;
+            width: 1.25em;
+            height: 1.25em;
+            border: 2px solid var(--ua-blue);
+            border-radius: 2px;
+            display: grid;
+            place-content: center;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: all 0.2s ease;
+        }
+
+        .task-checkbox::before {
+            content: "";
+            width: 0.65em;
+            height: 0.65em;
+            transform: scale(0);
+            transition: 120ms transform ease-in-out;
+            box-shadow: inset 1em 1em white;
+            transform-origin: center;
+            clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+            background-color: white;
+        }
+
+        .task-checkbox:checked {
+            background-color: var(--ua-red-bright);
+            border-color: var(--ua-red-bright);
+        }
+
+        .task-checkbox:checked::before {
+            transform: scale(1);
+        }
+
+        /* The label grows to fill space, pushing timestamp to the right */
+        .task-label {
+            cursor: pointer;
+            line-height: 1.5;
+            flex-grow: 1; 
+            font-weight: 500;
+            transition: color 0.2s;
+            margin-right: 10px; /* Space between text and time */
+        }
+
+        .task-checkbox:checked + .task-label {
+            text-decoration: line-through;
+            color: var(--checked-text);
+        }
+
+        /* Timestamp Styling */
+        .timestamp {
+            font-size: 0.75rem;
+            color: var(--timestamp-color);
+            white-space: nowrap; /* Prevent date from breaking into two lines */
+            font-family: "SF Mono", "Monaco", "Inconsolata", "Fira Mono", monospace;
+            margin-top: 4px; /* Align visually with text */
+        }
+
+        .progress-container {
+            margin-bottom: 25px;
+            font-size: 0.85rem;
+            color: var(--checked-text);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        #error-msg {
+            color: #721c24;
+            background-color: #f8d7da;
+            padding: 15px;
+            border-radius: 4px;
+            display: none;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div id="error-msg"></div>
+    
+    <div class="header-row">
+        <h1>UAL Annual Review Checklist</h1>
+        <button id="clear-btn" class="btn-clear" onclick="clearAll()">Clear All</button>
+    </div>
+
+    <div class="progress-container">All data is saved locally in your browser. No data is transmitted anywhere. 
+    This means checked items won't be synced if you open this page on a different device.</div>
+    
+    <div class="progress-container" id="progress">Loading status...</div>
+    <ul id="checklist">
+        <li class="loading">Loading checklist.md...</li>
+    </ul>
+</div>
+    <iframe src="https://ghbtns.com/github-btn.html?user=UAL-RE&repo=localchecklist&type=star&size=large&text=false" frameborder="0" scrolling="0" width="170" height="30" title="GitHub"></iframe>
+<script>
+    <!--FILE_PATH = 'https://cors-anywhere.herokuapp.com/https://example.com/external/checklist.md';-->
+    FILE_PATH = 'checklist.md';
+    STORAGE_KEY = 'md_checklist_ua_' + FILE_PATH;
+
+    // 1. Load State
+    function loadState() {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        return stored ? JSON.parse(stored) : {};
+    }
+
+    // 2. Save State (Now stores Timestamp or removes key)
+    function saveState(id, isChecked) {
+        const state = loadState();
+        if (isChecked) {
+            // Store current ISO time string
+            state[id] = new Date().toISOString();
+        } else {
+            delete state[id];
+        }
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        
+        // Re-render needed to show/hide timestamp without full refresh? 
+        // We can just update DOM directly for performance, 
+        // but re-rendering the specific item text/time is safer.
+        // For simplicity, we update the timestamp DOM element directly here:
+        const timestampSpan = document.getElementById(`time-${id}`);
+        if (isChecked) {
+            timestampSpan.textContent = formatDate(state[id]);
+        } else {
+            timestampSpan.textContent = '';
+        }
+
+        updateProgress();
+    }
+
+    // 3. Clear All Function
+    function clearAll() {
+        if (confirm("Are you sure you want to clear all checks and timestamps?")) {
+            localStorage.removeItem(STORAGE_KEY);
+            // Reload the list to reset UI
+            // We re-fetch or just re-render. Since we have the raw text in memory 
+            // usually, but here we'll just reload the page or re-init logic.
+            // Let's re-run init logic without fetch if possible, but simplest is:
+            location.reload();
+        }
+    }
+
+    // Helper: Format Date
+    function formatDate(isoString) {
+        if (!isoString) return '';
+        const date = new Date(isoString);
+        // Fallback for legacy "true" values from old versions
+        if (isNaN(date.getTime())) return ''; 
+        
+        return date.toLocaleString('en-US', { 
+            month: 'short', 
+            day: 'numeric', 
+            year: 'numeric',
+            hour: 'numeric', 
+            minute: '2-digit' 
+        });
+    }
+    
+    /**
+     * Function to get a specific GET parameter from the URL.
+     * @param {string} name - The name of the GET parameter to retrieve.
+     * @returns {string|null} The value of the parameter, or null if not found.
+     */
+    function getUrlParameter(name) {
+        // Encode the name to handle special characters in the URL
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        // Create a regular expression to match the parameter in the URL search string
+        // The 'i' flag makes it case-insensitive
+        const regex = new RegExp("[\\?&]" + name + "=([^&#]*)", "i");
+        // Execute the regex against the current URL's search part (e.g., "?name=value&other=stuff")
+        const results = regex.exec(location.search);
+        // If results are found and the value exists, decode it to handle URL-encoded characters
+        // Otherwise, return null
+        return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+
+    function updateProgress() {
+        const checkboxes = document.querySelectorAll('.task-checkbox');
+        const total = checkboxes.length;
+        const checked = document.querySelectorAll('.task-checkbox:checked').length;
+        const percent = total === 0 ? 0 : Math.round((checked / total) * 100);
+        document.getElementById('progress').textContent = `${checked} / ${total} TASKS COMPLETED (${percent}%)`;
+    }
+
+    function renderList(markdownText) {
+        const rootContainer = document.getElementById('checklist');
+        rootContainer.innerHTML = ''; 
+        const state = loadState();
+        const lines = markdownText.split('\n');
+
+        let stack = [{ ul: rootContainer, indent: -1 }];
+        let lastLi = null;
+
+        lines.forEach((line, index) => {
+            const match = line.match(/^(\s*)([-*+])\s+(\[[xX\s]\]\s)?(.*)/);
+
+            if (match) {
+                const currentIndent = match[1].replace(/\t/g, '    ').length;
+                let itemText = match[4].trim();
+                if (!itemText) return;
+
+                // Handle Nesting
+                while (stack.length > 1 && currentIndent <= stack[stack.length - 1].indent) {
+                    if (currentIndent === stack[stack.length - 1].indent) break;
+                    stack.pop();
+                }
+
+                const parent = stack[stack.length - 1];
+                if (currentIndent > parent.indent) {
+                    if (stack.length === 1) {
+                        stack.push({ ul: rootContainer, indent: currentIndent });
+                    } else if (lastLi) {
+                        const newUl = document.createElement('ul');
+                        lastLi.appendChild(newUl); 
+                        stack.push({ ul: newUl, indent: currentIndent });
+                    }
+                }
+
+                // Create Elements
+                const safeId = btoa(unescape(encodeURIComponent(itemText))).replace(/[^a-zA-Z0-9]/g, '').substring(0, 20) || `item-${index}`;
+
+                const li = document.createElement('li');
+                li.className = 'task-item';
+
+                const div = document.createElement('div');
+                div.className = 'task-content';
+
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.className = 'task-checkbox';
+                checkbox.id = safeId;
+
+                const storedValue = state[safeId];
+                // Check if stored (truthy) or markdown [x]
+                const isMdChecked = match[3] && match[3].toLowerCase().includes('x');
+                
+                if (storedValue || (storedValue === undefined && isMdChecked)) {
+                    checkbox.checked = true;
+                }
+
+                const label = document.createElement('label');
+                label.className = 'task-label';
+                label.htmlFor = safeId;
+                label.textContent = itemText;
+
+                // Timestamp Span
+                const timeSpan = document.createElement('span');
+                timeSpan.className = 'timestamp';
+                timeSpan.id = `time-${safeId}`;
+                
+                // If checked in storage, display formatted time. 
+                // If it was checked via Markdown [x] but not storage, no date exists yet.
+                if (storedValue) {
+                    timeSpan.textContent = formatDate(storedValue);
+                }
+
+                checkbox.addEventListener('change', (e) => saveState(safeId, e.target.checked));
+
+                div.appendChild(checkbox);
+                div.appendChild(label);
+                div.appendChild(timeSpan); // Appended last, pushed right by flex-grow on label
+                li.appendChild(div);
+
+                stack[stack.length - 1].ul.appendChild(li);
+                lastLi = li;
+            }
+        });
+        updateProgress();
+    }
+
+    async function init() {
+        try {
+            // Try to get the checklist from the list of parameters. Use the default if not found
+            checklistfile = getUrlParameter('checklist');
+            console.log(checklistfile);
+            if (checklistfile) {
+                FILE_PATH = checklistfile;
+                STORAGE_KEY = 'md_checklist_ua_' + FILE_PATH;
+                re = /^\w+\.md$/;
+                if (!re.test(checklistfile)) {
+                    throw new Error(checklistfile + ' not permitted');
+                }
+            }
+            const response = await fetch(FILE_PATH);
+            
+            if (!response.ok) throw new Error(`Status: ${response.status}`);
+            const text = await response.text();
+            renderList(text);
+        } catch (error) {
+            document.getElementById('error-msg').style.display = 'block';
+            document.getElementById('error-msg').innerHTML = `<strong>Error:</strong> ${error.message}<br>Make sure to run via local server.`;
+            document.getElementById('checklist').innerHTML = '';
+        }
+    }
+
+    init();
+</script>
+
+</body>
+</html>

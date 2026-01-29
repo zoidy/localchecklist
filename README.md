@@ -6,5 +6,5 @@ Create a checklist using markdown. Go to the page. Checked items will be saved l
 
 
 The default checklist is stored in `checklist.md`. Define new checklists using Markdown. To load additional lists,
-pass the filename via a parameter. E.g., https://ual-re.github.io/localchecklist?checklist=checklist.md. The file
+pass the filename via a parameter. E.g., https://ual-re.github.io/localchecklist?checklist=samplechecklist.md. The file
 must exist in this GitHub repo.
