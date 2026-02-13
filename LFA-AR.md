@@ -1,20 +1,24 @@
 <!-- All items and subitems must be unique! Else things break -->
 - Position Description (PD)
-    - Update Position Details at the top of the page
-    - Update Workload Distribution table. Summarize key accomplishments during the review period (no more than 50 words for each row in the table)
+    - Update Position Details at the top of the <a href="https://arizona.app.box.com/file/1072969879791">template</a>
+    - Update Workload Distribution table. Summarize key accomplishments during the review period (no more than 50 words for each category)
     - Signed by immediate adminstrative head (e.g., department head)
 - CV
     - Sections/subsections match the listed titles and order given in the <a href="https://arizona.app.box.com/file/2056658659030">CV Guidance</a>
     - All completed scholarship lists the percent contribution/effort
     - All teaching lists the number of hours (credit hours or just hours for one-offs)
-- <a href="https://facultyportfolio.arizona.edu">Faculty Portfolio (FP)</a>
-    - Update 2025 Key Priorities. Refer to the <a href="https://arizona.app.box.com/file/1369376680103">Annual Review Best Practices</a> 
-    and the <a href="https://arizona.app.box.com/file/1369380301773">LFA CV Faculty Portfolio Annual Review Guidance</a>
-    - All activities and priorities from prior years are closed (no 'ongoing' entries)
-    - PD uploaded as an attachment in the Workload Distribution section
+- <a href="https://facultyportfolio.arizona.edu">Faculty Portfolio</a> <span style="color:red">SUBMIT BY JANUARY 9, 2026</span>
+    - Key Priorities
+      - Update 2025 priorities
+      - Refer to the <a href="https://arizona.app.box.com/file/2056651643580">Annual Review Best Practices</a>    
+    - Workload Distribution
+      - Enter the % time you allocate to scholarship (use the "research" box), service, and other professional activities. Ensure they all add to 100%.
+      - Upload PD as an attachment in this section
     - Scholarly activity
       - Matches items listed in CV
       - Percent contribution/effort is included
       - Completed activities are changed to 'completed'
-    - Self-reflection pasted into FP and verified saved
+    - Close all key priorities, workload distributions, and activities from prior years (no 'ongoing' entries or entries spanning multiple years). Start a new priority/activity if a priority/activity will continue this year.
     - CV is uploaded as an attachment in the CV section with the appropriate start and end semester
+    - Evaluation section: Verify your self-reflection has been saved prior to submitting. 
+    
