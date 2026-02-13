@@ -1,0 +1,18 @@
+<!-- All items and subitems must be unique! Else things break -->
+- Position Description (PD)
+    - Update Position Details at the top of the page
+    - Update Workload Distribution table. Summarize key accomplishments during the review period (no more than 50 words for each row in the table)
+    - Signed by immediate adminstrative head (e.g., department head)
+- CV
+    - Sections/subsections match the listed titles and order given in the CV Guidance
+    - All completed scholarship lists the percent contribution/effort
+    - All teaching lists the number of hours (credit hours or just hours for one-offs)
+- [Faculty Portfolio (FP)](https://facultyportfolio.arizona.edu)
+    - All activities and priorities from prior years are closed (no 'ongoing' entries)
+    - PD uploaded as an attachment in the Workload Distribution section
+    - Scholarly activity
+      - Matches items listed in CV
+      - Percent contribution/effort is included
+      - Completed activities are changed to 'completed'
+    - Self-reflection pasted into FP and verified saved
+    - CV is uploaded as an attachment in the CV section with the appropriate start and end semester
