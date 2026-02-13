@@ -400,7 +400,7 @@
             if (checklistfile) {
                 FILE_PATH = checklistfile;
                 STORAGE_KEY = 'md_checklist_ua_' + FILE_PATH;
-                re = /^\w+\.md$/;
+                re = /[A-Za-z0-9_-]+\.md$/;
                 if (!re.test(checklistfile)) {
                     throw new Error(checklistfile + ' not permitted');
                 }
