@@ -7,7 +7,7 @@
     - Sections/subsections match the listed titles and order given in the CV Guidance
     - All completed scholarship lists the percent contribution/effort
     - All teaching lists the number of hours (credit hours or just hours for one-offs)
-- [Faculty Portfolio (FP)](https://facultyportfolio.arizona.edu)
+- <a href="https://facultyportfolio.arizona.edu">Faculty Portfolio (FP)</a>)
     - All activities and priorities from prior years are closed (no 'ongoing' entries)
     - PD uploaded as an attachment in the Workload Distribution section
     - Scholarly activity
