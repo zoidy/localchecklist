@@ -12,13 +12,15 @@
       - Update 2025 priorities
       - Refer to the <a href="https://arizona.app.box.com/file/2056651643580">Annual Review Best Practices</a>    
     - Workload Distribution
-      - Enter the % time you allocate to scholarship (use the "research" box), service, and other professional activities. Ensure they all add to 100%.
-      - Upload PD as an attachment in this section
+      - Enter the % time you allocate to scholarship (use the "research" box), service, and other professional activities. Ensure they add to 100%.
+      - 🚩 Upload signed PD as an attachment in this section. Set the appropriate start and end semester in the form
     - Scholarly activity
       - Matches items listed in CV
-      - Percent contribution/effort is included
-      - Completed activities are changed to 'completed'
-    - Close all key priorities, workload distributions, and activities from prior years (no 'ongoing' entries or entries spanning multiple years). Start a new priority/activity if a priority/activity will continue this year.
-    - CV is uploaded as an attachment in the CV section with the appropriate start and end semester
-    - Evaluation section: Verify your self-reflection has been saved prior to submitting. 
+      - Percent contribution/effort and the type of review is included (peer-review, editorially reviewed, etc)
+      - Completed activities are changed to 'completed' (no 'ongoing' entries)
+    - Close all key priorities, workload distributions, and activities from prior years (no 'ongoing' entries). Start a new priority/activity if a priority/activity will continue this year.
+    - CV Upload
+        - Ensure scholarship, grants, teaching matches what is entered in Faculty Portfolio
+        - 🚩 Upload CV as an attachment in this section. Set the appropriate start and end semester in the form
+    - Evaluation section: Verify your self-reflection has been saved prior to submitting. Do not attach your CV in this section.
     
